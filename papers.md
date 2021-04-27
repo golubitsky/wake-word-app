@@ -26,4 +26,10 @@
   - MG: I can't quite follow the discussion about pooling/striding in time vs frequency, need to learn more about mel spectrogram.
 - https://paperswithcode.com/task/keyword-spotting
 
+- https://www.connectedpapers.com/main/ea2690304b0f08cf298247bcc0d341e2a2981299/Howl-A-Deployed-OpenSource-Wake-Word-Detection-System/graph
+  - [Few-Shot Keyword Spotting With Prototypical Networks](https://arxiv.org/pdf/2007.14463.pdf)
+  - [Metric Learning for Keyword Spotting](https://arxiv.org/pdf/2005.08776.pdf)
+  - [MatchboxNet: 1D Time-Channel Separable Convolutional Neural Network Architecture for Speech Commands Recognition](https://arxiv.org/pdf/2004.08531.pdf)
+  - [Speech Commands: A Dataset for Limited-Vocabulary Speech Recognition](https://arxiv.org/pdf/1804.03209.pdf)
+
 [1]: https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43969.pdf
