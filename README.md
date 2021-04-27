@@ -3,9 +3,14 @@
 - [Project definition](https://docs.google.com/document/d/1OT4Ia46U7MTkquMIEYaLrGxiw7zxvn0Db_ogwX9X0kw/edit)
 - [How to work on your Capstone](https://docs.google.com/document/d/1h-XXeTrYdn_SWidsiF9iBrdtkksXJJjm-TYWXep74fE/edit)
 
+## Questions
+
+- What will the features be?
+- Can we train just a yes/no classifier as a baseline?
+
 ## Papers
 
-For existing papers on the subject of wake word detection, see [papers.md](papers.md).
+For existing papers on the subject of wake word detection, see [papers.md](papers.md) (with notes).
 
 ## Datasets
 
@@ -18,6 +23,8 @@ For existing papers on the subject of wake word detection, see [papers.md](paper
 
 ## TODO
 
+- [Simple audio recognition: Recognizing keywords tensorflow tutorial](https://www.tensorflow.org/tutorials/audio/simple_audio) on [speech commands dataset](https://www.tensorflow.org/datasets/catalog/speech_commands)
+  - [GitHub](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/speech_commands)
 - Set up frontend app (this repo); probably using create-react-app.
 - Prototype to capture audio and send to API.
 - Repo for model-training, API, deployment.
