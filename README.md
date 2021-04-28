@@ -6,9 +6,12 @@
 ## Questions
 
 - What will the features be?
-- Can we train just a yes/no classifier as a baseline?
+- Can we train just a yes/no classifier as a baseline? Or even something simpler?
+- Might want to build the simplest possible model (i.e. "if audio is not silent, wake word is detected") in order to get the web app and API up and running. Later we can iterate on the model.
+- Need to explore the datasets; some resources below. There's a tensorflow tutorial for the Speech Commands Dataset.
+- [honk](https://github.com/castorini/honk) GitHub may provide baseline of web app code; also the GitHub for [howl-deploy](https://github.com/castorini/howl-deploy).
 
-## Approaches
+### Progression of complexity in pattern recognition
 
 - Simplest possible pattern recognition:
   - Substring in a word.
@@ -19,6 +22,8 @@
 
   - Show many examples of wake word; also some negative examples.
   - Finding the word in arbitrary-length audio is harder than simply detecting a digit in 32x32 images, having trained on 32x32 images.
+
+### Scaling
 
 - Possible to train on phonemes? Datasets with phonemes? Could help to generalize to any wake word?
   - General model (i.e. ability to specify wake-word at run time, already having trained) is much harder/different than specific model (wake-word known before training).
