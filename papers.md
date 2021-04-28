@@ -1,5 +1,6 @@
 - [Howl](https://www.aclweb.org/anthology/2020.nlposs-1.9.pdf)
   - [GitHub](https://github.com/castorini/howl)
+  - We further make the distinction between wake word detection and speech commands classification toolkits such as Honk (Tang and Lin, 2017). These frameworks focus on classifying fixed-length audio as one of a few dozen keywords, with no evaluation on a sizable negative set, as required in wake word detection. While these trained models may be used in detection applications, they are not rigorously tested for such.
 - [Honk](https://arxiv.org/pdf/1710.06554.pdf) (_linked from Howl_): A PyTorch Reimplementation of Convolutional Neural Networks for Keyword Spotting
   - [GitHub](https://github.com/castorini/honk)
     - A utility for recording and building custom speech commands, producing audio samples of the appropriate length and format.

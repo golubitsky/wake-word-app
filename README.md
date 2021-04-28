@@ -8,6 +8,20 @@
 - What will the features be?
 - Can we train just a yes/no classifier as a baseline?
 
+## Approaches
+
+- Simplest possible pattern recognition:
+  - Substring in a word.
+  - Arrangement of pixels.
+  - These two don't have variance for each example. Every instance identical.
+- OCR - digit recognition - variance.
+- Applying [Mel-Spectrogram](https://towardsdatascience.com/getting-to-know-the-mel-spectrogram-31bca3e2d9d0) to audio could transform problem into OCR
+
+  - Show many examples of wake word; also some negative examples.
+  - Finding the word in arbitrary-length audio is harder than simply detecting a digit in 32x32 images, having trained on 32x32 images.
+
+- Possible to train on phonemes? Datasets with phonemes? Could help to generalize to any wake word?
+
 ## Papers
 
 For existing papers on the subject of wake word detection, see [papers.md](papers.md) (with notes).
@@ -15,11 +29,13 @@ For existing papers on the subject of wake word detection, see [papers.md](paper
 ## Datasets
 
 - [Google Speech Commands Dataset](https://ai.googleblog.com/2017/08/launching-speech-commands-dataset.html)
+  - [Paper about this dataset](https://arxiv.org/pdf/1804.03209.pdf)
 - [Mozilla Common Voice Dataset](https://commonvoice.mozilla.org/en/datasets)
 
-## Libraries
+## Technical
 
 - [librosa](https://librosa.org/doc/latest/tutorial.html)
+- [Dockerized PyTorch + GPU](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch)
 
 ## TODO
 
