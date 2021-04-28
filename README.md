@@ -21,6 +21,8 @@
   - Finding the word in arbitrary-length audio is harder than simply detecting a digit in 32x32 images, having trained on 32x32 images.
 
 - Possible to train on phonemes? Datasets with phonemes? Could help to generalize to any wake word?
+  - General model (i.e. ability to specify wake-word at run time, already having trained) is much harder/different than specific model (wake-word known before training).
+- How much data is needed? Does increasing amount of data help?
 
 ## Papers
 
