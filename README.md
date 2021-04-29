@@ -45,6 +45,26 @@ For existing papers on the subject of wake word detection, see [papers.md](paper
 - [Dockerized PyTorch + GPU](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch)
 - [WavAugment](https://github.com/facebookresearch/WavAugment) - [colab walkthrough](https://colab.research.google.com/github/facebookresearch/WavAugment/blob/master/examples/python/WavAugment_walkthrough.ipynb)
 
+### Audio Streaming/Recording
+
+It would be pretty awesome to build an app that could:
+
+- stream audio from a user's microphone to the API
+- API will interpret the stream, and every `n` seconds (where `n` might be like 1 or 3 or something..) will pass `n` seconds of audio as a "chunk" into the model
+- API will return "yes" or "no" to the client at the end of processing every "chunk" of audio
+
+But a simpler goal would be to just provide the user the ability to record a `n`-second-long clip and have that send to the server for the "yes"/"no" answer.
+
+Research in this direction:
+
+- https://webrtc.org/
+- https://github.com/nexmo-community/audiosocket_framework/blob/main/server.py
+- https://www.html5rocks.com/en/tutorials/webrtc/basics/
+- https://github.com/aiortc/aiortc
+- https://dev.to/whitphx/python-webrtc-basics-with-aiortc-48id
+- https://github.com/golubitsky/explorations/tree/master/aiortc-server-example -- could be used for streaming (?), can't get it to 'work'.
+- https://github.com/golubitsky/explorations/tree/master/brautopy - this works to record `wav` files from the browser.
+
 ## TODO
 
 - [Simple audio recognition: Recognizing keywords tensorflow tutorial](https://www.tensorflow.org/tutorials/audio/simple_audio) on [speech commands dataset](https://www.tensorflow.org/datasets/catalog/speech_commands)
