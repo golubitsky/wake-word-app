@@ -43,6 +43,7 @@ For existing papers on the subject of wake word detection, see [papers.md](paper
 
 - [librosa](https://librosa.org/doc/latest/tutorial.html)
 - [Dockerized PyTorch + GPU](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch)
+- [WavAugment](https://github.com/facebookresearch/WavAugment) - [colab walkthrough](https://colab.research.google.com/github/facebookresearch/WavAugment/blob/master/examples/python/WavAugment_walkthrough.ipynb)
 
 ## TODO
 
