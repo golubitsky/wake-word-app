@@ -2,6 +2,7 @@
 
 - [Project definition](https://docs.google.com/document/d/1OT4Ia46U7MTkquMIEYaLrGxiw7zxvn0Db_ogwX9X0kw/edit)
 - [How to work on your Capstone](https://docs.google.com/document/d/1h-XXeTrYdn_SWidsiF9iBrdtkksXJJjm-TYWXep74fE/edit)
+- [System design and ethical considerations](https://canvas.instructure.com/courses/2578379/modules/items/42755620)
 
 ## Questions
 
