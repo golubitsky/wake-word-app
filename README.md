@@ -36,9 +36,7 @@ For existing papers on the subject of wake word detection, see [papers.md](paper
 
 ## Datasets
 
-- [Google Speech Commands Dataset](https://ai.googleblog.com/2017/08/launching-speech-commands-dataset.html)
-  - [Paper about this dataset](https://arxiv.org/pdf/1804.03209.pdf)
-- [Mozilla Common Voice Dataset](https://commonvoice.mozilla.org/en/datasets)
+See [datasets.md](datasets.md).
 
 ## Technical
 
