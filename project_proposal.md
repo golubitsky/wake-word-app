@@ -34,9 +34,9 @@ Key activities/ technologies the project team may be expected to undertake/ work
 [E.g. What kind of technology stack will you work with, the datasets you may need to work on, what kind of analysis you may be expected to undertake, etc.]
 
 - Prediction API - answer the question "is wake word present in this audio?"
-- User-facing webapp that will allow user to:
+- User-facing web app that will allow user to:
 
-  - MVP: (only via API - no webapp at this point) specify detect wake word in audio that's already available on the server to classify.
+  - MVP: (only via API - no web app at this point) specify detect wake word in audio that's already available on the server to classify.
   - v1: detect wake word in audio recorded via UI and sent to server.
   - v2: detect wake word in audio streamed via UI -> server.
 
@@ -44,6 +44,50 @@ Key activities/ technologies the project team may be expected to undertake/ work
 - Training
   - Convolutional Neural Network (CNN) using Tensorflow/Keras
   - RNN, if time allows
+
+## System Design
+
+[Describe the iterations, delivery formats and limitations you may face and some solutions to overcome the limitations.]
+
+### Data
+
+See [datasets.md](datasets.md).
+
+### Process (Models, iterations)
+
+- We still haven’t identified how to go from “single word detection from single word” (classification) to “single word detection from phrase” (keyword spotting).
+
+### Outcome (output and recommendations)
+
+### Iterations
+
+#### 1
+
+- Train and deploy audio classification model based on https://www.tensorflow.org/tutorials/audio/simple_audio
+
+  - This is classification, and not yet keyword spotting.
+  - Steps
+    1. Go through the tutorial.
+    2. Develop API locally and make it serve the predictions.
+    3. Deploy the API.
+
+- Explore the 2 datasets.
+
+#### 2
+
+- Deployment for API.
+- Model training (classification).
+- Determine model for keyword spotting.
+
+#### 3
+
+v1 of web app.
+
+- Model training (keyword spotting).
+
+#### 4
+
+v2 of web app?
 
 ## Ethical considerations
 
@@ -53,7 +97,7 @@ Key activities/ technologies the project team may be expected to undertake/ work
   - ethnicity (accents)
 
 - Existing datasets are anonymized.
-- For the webapp, user will initiate and consent to recording and sending of their voice for prediction.
+- For the web app, user will initiate and consent to recording and sending of their voice for prediction.
 
 ## Expected learning outcomes
 
@@ -70,3 +114,13 @@ Key activities/ technologies the project team may be expected to undertake/ work
 ## Tentative Timeplan
 
 Submit a tentative time plan (table/chart or text) regarding breakdown of the work that will be conducted between May 2021- July 2
+
+What we'll need to build:
+
+- Data pre-processing.
+- Model(s) + training.
+- Wake Word Prediction API.
+  - Server? or serverless?
+- Web app.
+- Deployment of Prediction API and model.
+  - Terraform?
