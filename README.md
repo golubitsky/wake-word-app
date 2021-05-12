@@ -68,6 +68,7 @@ Research in this direction:
 
 - [Simple audio recognition: Recognizing keywords tensorflow tutorial](https://www.tensorflow.org/tutorials/audio/simple_audio) on [speech commands dataset](https://www.tensorflow.org/datasets/catalog/speech_commands)
   - [GitHub](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/speech_commands)
+  - [Hey Spotify! went through the tutorial (colab)](https://colab.research.google.com/drive/1N7KJ-TS-d91heKK1s3q8nnT7LaRTdZat#scrollTo=dHqqcuf4PL9T)
 - Set up frontend app (this repo); probably using create-react-app.
 - Prototype to capture audio and send to API.
 - Repo for model-training, API, deployment.
