@@ -66,15 +66,33 @@ Research in this direction:
 
 ## TODO
 
-- [Simple audio recognition: Recognizing keywords tensorflow tutorial](https://www.tensorflow.org/tutorials/audio/simple_audio) on [speech commands dataset](https://www.tensorflow.org/datasets/catalog/speech_commands)
-  - [GitHub](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/speech_commands)
-  - [Hey Spotify! went through the tutorial (colab)](https://colab.research.google.com/drive/1N7KJ-TS-d91heKK1s3q8nnT7LaRTdZat#scrollTo=dHqqcuf4PL9T)
+- How to standardize audio length in pre-processing. Need to?
+- Pre-process audio into images.
+- How to code (in isolation, preferably) the best model from howl paper (res8)?
+- What is a small sample of data we can use to train it?
+
+  - Can we use just Google Speech Commands dataset? It doesn’t contain sentences. And our model will need “wake words” and “sentences” (which to classify as containing or not containing wake words). But maybe as the simplest model we can use words from Google Speech Commands as both.
+  - It’s possible to import a sample of this dataset pretty easily, as shown in "Simple audio recognition: Recognizing keywords tensorflow tutorial"
+
+- Explore the Mozilla Common Voice Dataset
+
+  - Can we import a sample? The full english dataset is ~58 GB in size.
+
 - Set up frontend app (this repo); probably using create-react-app.
 - Prototype to capture audio and send to API.
 - Repo for model-training, API, deployment.
+- Setup SageMaker instance, remember to add during creating instance:
+  - tags: team name, each team member name
+  - lifecycle policy - auto-idle-stop
 
 ## Done
 
+- [Convert WAV files to Mel Spectrograms](https://colab.research.google.com/drive/1oJC1Te5-OyUuWKJ5wOJd5edy7ct1Dtih?usp=sharing)
+  - No white space in output of Mel Spectrograms.
+  - Output not shown in notebook; only saved to filesystem.
+- [Simple audio recognition: Recognizing keywords tensorflow tutorial](https://www.tensorflow.org/tutorials/audio/simple_audio) on [speech commands dataset](https://www.tensorflow.org/datasets/catalog/speech_commands)
+  - [GitHub](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/speech_commands)
+  - [Hey Spotify! went through the tutorial (colab)](https://colab.research.google.com/drive/1N7KJ-TS-d91heKK1s3q8nnT7LaRTdZat#scrollTo=dHqqcuf4PL9T)
 - Repo for front-end app (so it can easily be developed separately).
 
 ## Along the way/miscellaneous
