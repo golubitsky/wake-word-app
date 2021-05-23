@@ -4,6 +4,11 @@
 - [How to work on your Capstone](https://docs.google.com/document/d/1h-XXeTrYdn_SWidsiF9iBrdtkksXJJjm-TYWXep74fE/edit)
 - [System design and ethical considerations](https://canvas.instructure.com/courses/2578379/modules/items/42755620)
 
+## Development Quick Links
+
+- [AWS SageMaker: hey-spotify](https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances)
+- [AWS S3 bucket: hey-spotify](https://s3.console.aws.amazon.com/s3/home?region=us-east-1#)
+
 ## Questions
 
 - What will the features be?
@@ -66,6 +71,12 @@ Research in this direction:
 
 ## TODO
 
+- Implement baseline model based on Howl research paper: “res8”.
+- identify first wake-word that we will try to find in sentences — wake-word must appear in many sentences in https://commonvoice.mozilla.org/en/datasets — we don’t know how to find frequency of sentences by word, no index appears to exist for mozilla dataset, need to investigate
+  - this will be the baseline data we need to train the “res8" model.
+- load our 2 datasets into S3 bucket
+- determine what data to use from our 2 datasets
+- train baseline model using data sample
 - How to standardize audio length in pre-processing. Need to?
 - Pre-process audio into images.
 - How to code (in isolation, preferably) the best model from howl paper (res8)?
@@ -81,12 +92,20 @@ Research in this direction:
 - Set up frontend app (this repo); probably using create-react-app.
 - Prototype to capture audio and send to API.
 - Repo for model-training, API, deployment.
-- Setup SageMaker instance, remember to add during creating instance:
-  - tags: team name, each team member name
-  - lifecycle policy - auto-idle-stop
+
+  - We may consider having multiple folders in this one repo instead. That may be simpler for us to work with for now.
+  - SageMaker will need access to a repo with our model code for training.
+  - Existing SageMaker instance already imports this repo but we can always change it.
+  - It might make most sense to have two separate repos. One for the front-end (this repo). One for the rest (another repo).
 
 ## Done
 
+- Identify baseline model based on Howl research paper: “res8”.
+- Setup `hey-spotify` S3 bucket
+- Setup `hey-spotify` SageMaker instance, remember to add during creating instance:
+  - tags: team name, each team member name
+  - lifecycle policy - auto-idle-stop
+- Prototype how to read files from S3 bucket [make sure you can see this notebook on the SageMaker instance](https://hey-spotify.notebook.us-east-1.sagemaker.aws/notebooks/wake-word-app/S3%20demo.ipynb)
 - [Convert WAV files to Mel Spectrograms](https://colab.research.google.com/drive/1oJC1Te5-OyUuWKJ5wOJd5edy7ct1Dtih?usp=sharing)
   - No white space in output of Mel Spectrograms.
   - Output not shown in notebook; only saved to filesystem.
