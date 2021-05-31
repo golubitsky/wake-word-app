@@ -6,6 +6,8 @@
 
 ## Development Quick Links
 
+Username is your email.
+
 - [AWS SageMaker: hey-spotify](https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances)
 - [AWS S3 bucket: hey-spotify](https://s3.console.aws.amazon.com/s3/home?region=us-east-1#)
 
