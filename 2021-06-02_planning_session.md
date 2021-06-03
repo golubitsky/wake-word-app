@@ -12,7 +12,7 @@
     - Find the longest file we have.
     - While creating images
       - pad with empty audio so that each represents the same length.
-      - Where to pad? Is beginning best?
+      - Where to pad? Is beginning best? Tensorflow tutorial pads at end.
 - Script to convert MP3 -> Mel Spectrogram (not yet prototyped; presumably small modification needed w.r.t. WAV, if any)
 
 #### How to develop the script?
