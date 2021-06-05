@@ -18,6 +18,7 @@ import numpy as np
 
 # TODO set sample rate for Mozilla?
 GOOGLE_SPEECH_COMMANDS_SAMPLE_RATE_HZ = 16000
+MOZILLA_COMMON_VOICE_SAMPLE_RATE_HZ = 48000
 
 
 def open_audio_file(path):
@@ -34,7 +35,7 @@ def convert_audio_file_to_mel_spectrogram(audio_file_path, local_tmp_mel_spectro
         file.write(content)
     # End hack
 
-    y, sr = librosa.load('/tmp/audio_file', sr=GOOGLE_SPEECH_COMMANDS_SAMPLE_RATE_HZ)
+    y, sr = librosa.load('/tmp/audio_file', sr=MOZILLA_COMMON_VOICE_SAMPLE_RATE_HZ)
     mel_spect = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=2048, hop_length=1024)
     mel_spect = librosa.power_to_db(mel_spect, ref=np.max)
 
@@ -65,7 +66,11 @@ def mel_spectrogram_file_path(audio_file_path):
 
 BUCKET_NAME = 'hey-spotify'
 s3 = boto3.client('s3')
-inputs = s3.list_objects(Bucket=BUCKET_NAME, Prefix='input_audio/speech_commands_v0.02/down')['Contents']
+
+GOOGLE_INPUT_AUDIO_PATH = 'input_audio/speech_commands_v0.02/down'
+MOZILLA_INPUT_AUDIO_PATH = 'input_audio/mozilla/down'
+
+inputs = s3.list_objects(Bucket=BUCKET_NAME, Prefix=MOZILLA_INPUT_AUDIO_PATH)['Contents']
 
 # MEL_SPECTROGRAM_DIR = mel_spectrograms/speech_commands_v0.02/down
 
@@ -73,7 +78,8 @@ for input in inputs:
     local_tmp_mel_spectrogram_output_path = '/tmp/mel_spectrogram.png'
     convert_audio_file_to_mel_spectrogram(input['Key'], local_tmp_mel_spectrogram_output_path)
     remote_mel_spectrogram_path = mel_spectrogram_file_path(input['Key'])
-
+    print(remote_mel_spectrogram_path)
+    exit()
     with open(local_tmp_mel_spectrogram_output_path, "rb") as f:
         s3.upload_fileobj(f, BUCKET_NAME, remote_mel_spectrogram_path)
     # TODO remove the break to run for all
