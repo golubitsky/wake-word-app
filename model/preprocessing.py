@@ -80,3 +80,5 @@ for input in inputs:
     # TODO add progress indicator: i.e. "converting x of 2344 files"
     # or use tqdm package
     break
+
+print('done!')

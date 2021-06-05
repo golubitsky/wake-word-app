@@ -4,6 +4,30 @@
 - [How to work on your Capstone](https://docs.google.com/document/d/1h-XXeTrYdn_SWidsiF9iBrdtkksXJJjm-TYWXep74fE/edit)
 - [System design and ethical considerations](https://canvas.instructure.com/courses/2578379/modules/items/42755620)
 
+## Development
+
+To develop:
+
+0. Download Docker: https://www.docker.com/products/docker-desktop
+1. Change source code.
+2. Build
+3. Run
+
+### Build
+
+```sh
+docker build -t wake-word-app .
+```
+
+### Run
+
+```sh
+# Volume mount the credentials for AWS; probably not needed in EC2.
+docker run -it -v ~/.aws:/root/.aws wake-word-app python3 model/preprocessing.py
+# Without credentials
+docker run -it wake-word-app python3 model/preprocessing.py
+```
+
 ## Development Quick Links
 
 Username is your email.
