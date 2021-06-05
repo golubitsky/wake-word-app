@@ -7,6 +7,7 @@ WORKDIR /app
 # OS dependencies
 RUN apt-get update -y
 RUN apt-get -y install libsndfile1-dev
+RUN apt -y install ffmpeg
 
 # Application dependencies
 COPY requirements.txt requirements.txt
