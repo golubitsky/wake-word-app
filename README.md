@@ -97,28 +97,19 @@ Research in this direction:
 
 ## TODO
 
-- Implement baseline model based on Howl research paper: “res8”.
-- identify first wake-word that we will try to find in sentences — wake-word must appear in many sentences in https://commonvoice.mozilla.org/en/datasets — we don’t know how to find frequency of sentences by word, no index appears to exist for mozilla dataset, need to investigate
-  - this will be the baseline data we need to train the “res8" model.
-- load our 2 datasets into S3 bucket
-- determine what data to use from our 2 datasets
-- train baseline model using data sample
-- How to standardize audio length in pre-processing. Need to?
 - Pre-process audio into images.
+  - WIP in `model/preprocessing.py`
+  - How to standardize audio length in pre-processing. Need to? Notes in that file also.
+- Implement baseline model based on Howl research paper: “res8”.
+- train baseline model using data sample
 - How to code (in isolation, preferably) the best model from howl paper (res8)?
 - What is a small sample of data we can use to train it?
-
   - Can we use just Google Speech Commands dataset? It doesn’t contain sentences. And our model will need “wake words” and “sentences” (which to classify as containing or not containing wake words). But maybe as the simplest model we can use words from Google Speech Commands as both.
   - It’s possible to import a sample of this dataset pretty easily, as shown in "Simple audio recognition: Recognizing keywords tensorflow tutorial"
-
-- Explore the Mozilla Common Voice Dataset
-
-  - Can we import a sample? The full english dataset is ~58 GB in size.
-
 - Set up frontend app (this repo); probably using create-react-app.
 - Prototype to capture audio and send to API.
-- Repo for model-training, API, deployment.
-
+- Repo for model-training, API, deployment
+  - Might not need; this repo should work for everything, at least for now.
   - We may consider having multiple folders in this one repo instead. That may be simpler for us to work with for now.
   - SageMaker will need access to a repo with our model code for training.
   - Existing SageMaker instance already imports this repo but we can always change it.
@@ -126,6 +117,14 @@ Research in this direction:
 
 ## Done
 
+- Explore the Mozilla Common Voice Dataset
+  - Can we import a sample? The full english dataset is ~58 GB in size.
+  - Yes, uploaded just "down" using `data_selection/select_subset_of_mozilla_common_voice.py`.
+- identify first wake-word that we will try to find in sentences — wake-word must appear in many sentences in https://commonvoice.mozilla.org/en/datasets — we don’t know how to find frequency of sentences by word, no index appears to exist for mozilla dataset, need to investigate
+  - this will be the baseline data we need to train the “res8" model.
+  - word we selected is "down"
+- load our 2 datasets into S3 bucket
+- determine what data to use from our 2 datasets
 - Identify baseline model based on Howl research paper: “res8”.
 - Setup `hey-spotify` S3 bucket
 - Setup `hey-spotify` SageMaker instance, remember to add during creating instance:
