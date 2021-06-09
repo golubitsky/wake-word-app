@@ -1,0 +1,12 @@
+Mel-Spectrogram Clustering
+good starting point to develop baseline
+
+https://medium.com/@CVxTz/audio-classification-a-convolutional-neural-network-approach-b0a4fce8f6c
+https://github.com/CVxTz/audio_classification
+
+Pretty standard 10-layer network.  Easy deployment, not our exact use case, but could easily be tweaked.
+
+
+
+Paper that highlights feature options:
+https://arxiv.org/pdf/2007.11154.pdf
