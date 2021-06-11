@@ -16,26 +16,30 @@ import librosa
 import librosa.display
 import numpy as np
 
-# TODO set sample rate for Mozilla?
+
+BUCKET_NAME = 'hey-spotify'
+
+GOOGLE_INPUT_AUDIO_PATH = 'input_audio/speech_commands_v0.02/down'
 GOOGLE_SPEECH_COMMANDS_SAMPLE_RATE_HZ = 16000
+
+MOZILLA_INPUT_AUDIO_PATH = 'input_audio/mozilla/down'
 MOZILLA_COMMON_VOICE_SAMPLE_RATE_HZ = 48000
 
-
-def open_audio_file(path):
-    s3_client = boto3.resource('s3')
-    s3_client.download_file('hey-spotify', path, '/tmp/audio_file')
+# Write each Mel Spectrogram to this local path first; then upload to S3.
+TEMP_LOCAL_MEL_SPECTROGRAM_PATH = '/tmp/mel_spectrogram.png'
 
 
-def convert_audio_file_to_mel_spectrogram(audio_file_path, local_tmp_mel_spectrogram_output_path):
-    # Begin hack
-    res = s3.get_object(Bucket='hey-spotify', Key=audio_file_path)
-    content = res["Body"].read()
+def load_using_librosa(file_contents, sample_rate_hz):
     # There has to be a way to read directly from S3 into librosa without writing the bytes to disk.
     with open('/tmp/audio_file', 'wb') as file:
-        file.write(content)
-    # End hack
+        file.write(file_contents)
 
-    y, sr = librosa.load('/tmp/audio_file', sr=MOZILLA_COMMON_VOICE_SAMPLE_RATE_HZ)
+    return librosa.load('/tmp/audio_file', sr=sample_rate_hz)
+
+
+def convert_audio_file_to_mel_spectrogram(file_contents, sample_rate_hz):
+    y, sr = load_using_librosa(file_contents, sample_rate_hz)
+
     mel_spect = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=2048, hop_length=1024)
     mel_spect = librosa.power_to_db(mel_spect, ref=np.max)
 
@@ -49,7 +53,7 @@ def convert_audio_file_to_mel_spectrogram(audio_file_path, local_tmp_mel_spectro
         ax.spines[spline].set_visible(False)
 
     librosa.display.specshow(mel_spect, ax=ax)
-    fig.savefig(local_tmp_mel_spectrogram_output_path, bbox_inches='tight', pad_inches=0)
+    fig.savefig(TEMP_LOCAL_MEL_SPECTROGRAM_PATH, bbox_inches='tight', pad_inches=0)
 
 
 def ensure_dir_exists(dir):
@@ -64,27 +68,82 @@ def mel_spectrogram_file_path(audio_file_path):
     return re.sub(rf'{extension}$', '.png', in_target_dir)
 
 
-BUCKET_NAME = 'hey-spotify'
-s3 = boto3.client('s3')
+def sample_rate(path):
+    if path.startswith(GOOGLE_INPUT_AUDIO_PATH):
+        return GOOGLE_SPEECH_COMMANDS_SAMPLE_RATE_HZ
 
-GOOGLE_INPUT_AUDIO_PATH = 'input_audio/speech_commands_v0.02/down'
-MOZILLA_INPUT_AUDIO_PATH = 'input_audio/mozilla/down'
+    if path.startswith(MOZILLA_INPUT_AUDIO_PATH):
+        return MOZILLA_COMMON_VOICE_SAMPLE_RATE_HZ
 
-inputs = s3.list_objects(Bucket=BUCKET_NAME, Prefix=MOZILLA_INPUT_AUDIO_PATH)['Contents']
+    raise RuntimeError(f'sample rate unknown for {path}')
 
-# MEL_SPECTROGRAM_DIR = mel_spectrograms/speech_commands_v0.02/down
 
-for input in inputs:
-    local_tmp_mel_spectrogram_output_path = '/tmp/mel_spectrogram.png'
-    convert_audio_file_to_mel_spectrogram(input['Key'], local_tmp_mel_spectrogram_output_path)
-    remote_mel_spectrogram_path = mel_spectrogram_file_path(input['Key'])
-    print(remote_mel_spectrogram_path)
-    exit()
-    with open(local_tmp_mel_spectrogram_output_path, "rb") as f:
-        s3.upload_fileobj(f, BUCKET_NAME, remote_mel_spectrogram_path)
-    # TODO remove the break to run for all
-    # TODO add progress indicator: i.e. "converting x of 2344 files"
-    # or use tqdm package
-    break
+def all_s3_objects(s3, path):
+    paginator = s3.get_paginator('list_objects_v2')
+    pages = paginator.paginate(Bucket=BUCKET_NAME, Prefix=path)
 
-print('done!')
+    sr = sample_rate(path)
+
+    i = 1
+    for page in pages:
+        for obj in page['Contents']:
+            print(f"Downloading {obj['Key']} ({i})")
+            s3_response = s3.get_object(Bucket=BUCKET_NAME, Key=obj['Key'])
+            s3_content = s3_response["Body"].read()
+            i += 1
+            yield({'Key': obj['Key'], 'Content': s3_content, 'SampleRate': sr})
+
+
+def convert_files_to_mel_spectrogram(s3, source_path):
+    print(f"Converting audio from {source_path}")
+
+    for object in all_s3_objects(s3, source_path):
+        print(f"Converting {object['Key']}")
+        convert_audio_file_to_mel_spectrogram(object['Content'], object['SampleRate'])
+
+        remote_mel_spectrogram_path = mel_spectrogram_file_path(object['Key'])
+        print(f'Uploading to {remote_mel_spectrogram_path}')
+
+        with open(TEMP_LOCAL_MEL_SPECTROGRAM_PATH, "rb") as f:
+            s3.upload_fileobj(f, BUCKET_NAME, remote_mel_spectrogram_path)
+        print()
+
+
+def ignore_warnings_from_librosa():
+    # https://github.com/librosa/librosa/issues/1015
+    import warnings
+    warnings.filterwarnings('ignore')
+
+
+def determine_max_length(s3, source_path):
+    for object in all_s3_objects(s3, source_path):
+        print(object['Key'])
+        y, sr = load_using_librosa(object['Content'], object['SampleRate'])
+        d = librosa.get_duration(y)
+        print(d)
+
+
+# TODO padding?
+# TODO MP3 length (according to librosa) is not correct, that might not matter for converting to mel-spectrograms
+# but it may matter for padding. Will need to verify.
+
+# Either librosa doesn’t correctly read in MP3s or else doesn’t correctly report the duration (edited)
+# Presumably padding (to maximum length in dataset?) should be done. How else to feed same format data to the model?
+# Maybe possible to achieve same results by having the model ‘on the fly’ look at only n-second-long windows
+# That’s ultimately what is needed anyway: to detect the wake word in some window of audio,
+# not to detect the wake word in a longer audio file — in one Mozilla example the length can be 13 seconds,
+# do we really want all Mel Spectrograms to be that size?
+
+def main():
+    ignore_warnings_from_librosa()
+
+    s3 = boto3.client('s3')
+
+    for source_path in [GOOGLE_INPUT_AUDIO_PATH, MOZILLA_INPUT_AUDIO_PATH]:
+        convert_files_to_mel_spectrogram(s3, source_path)
+
+    print('done!')
+
+
+if __name__ == "__main__":
+    main()
