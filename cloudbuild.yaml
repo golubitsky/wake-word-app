@@ -1,0 +1,9 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1",
+        ".",
+      ]
