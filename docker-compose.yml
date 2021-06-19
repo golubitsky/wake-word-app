@@ -1,0 +1,6 @@
+version: "3.9"
+services:
+  web:
+    image: golubitsky/ml-model-deployment:v1
+    ports:
+      - "5000:5000"
