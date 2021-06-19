@@ -39,4 +39,4 @@ docker build -t gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1 .
 docker push gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1
 ```
 
-<remove me, added to test build>
+<remove me, added to test build 2>
