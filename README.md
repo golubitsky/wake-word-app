@@ -38,6 +38,20 @@ Only authenticated invocations are allowed for this service.
 To allow unauthenticated invocations, add "allUsers" as a member and assign it the "Cloud Run invoker" role.
 ```
 
+#### To Deploy a new version
+
+- Manually build.
+
+```
+docker build -t gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1 .
+docker push gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1
+```
+
+- Manually update.
+  - Visit https://console.cloud.google.com/run/detail/us-east1/golubitsky-ml-model-deployment-without-cloud-build/revisions?project=fb-mle-march-21
+  - Click `EDIT & DEPLOY NEW REVISION`.
+  - Click `DEPLOY`.
+
 ### Cloud Build
 
 Separately, I tried to get Cloud Build to work (so that pushing to this repo will cause builds).
