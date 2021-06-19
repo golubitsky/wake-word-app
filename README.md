@@ -29,6 +29,8 @@ $ curl -H  "Authorization: Bearer $(gcloud auth print-identity-token)" https://g
 Hello, brave world!
 ```
 
+This is serving the Flask app defined in `app.py`.
+
 I am unauthorized to expose the API publically — it's a permissions issue:
 
 ```
