@@ -1,3 +1,11 @@
+I tried in three ways to deploy a Docker container.
+
+Summary of deployment attempts via:
+
+- GCP Cloud Run: succeeded to deploy service (serving Hello, World), but cannot expose it to the world.
+- GCP Cloud Build integration for Github: permissions issue — [PROJECT_ID]@cloudbuild.gserviceaccount.com account doesn't have correct permissions to deploy
+- AWS ECS: missing iam:CreateRole permissions
+
 ## Attempts via GCP
 
 ### Cloud Run
