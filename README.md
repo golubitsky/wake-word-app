@@ -29,7 +29,12 @@ $ curl -H  "Authorization: Bearer $(gcloud auth print-identity-token)" https://g
 Hello, brave world!
 ```
 
-I don't know how to expose the API publically -- it's a permissions issue.
+I am unauthorized to expose the API publically — it's a permissions issue:
+
+```
+Only authenticated invocations are allowed for this service.
+To allow unauthenticated invocations, add "allUsers" as a member and assign it the "Cloud Run invoker" role.
+```
 
 ### Cloud Build
 
