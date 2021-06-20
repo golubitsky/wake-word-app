@@ -1,6 +1,34 @@
-# Develop
+## Quickstart
 
-# Deploy
+### Build
+
+This will build a Docker image.
+
+```
+make deploy
+```
+
+### Develop
+
+This will build the Docker image and run it as a container.
+
+```
+make develop
+```
+
+Now, visit http://localhost:5000
+
+The server automatically restarts on file change.
+
+### Deploy
+
+Build the Docker image and push it to GCR, described below.
+
+```
+make deploy
+```
+
+## Deployment
 
 I tried in three ways to deploy a Docker container.
 
