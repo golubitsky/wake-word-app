@@ -17,6 +17,8 @@ COPY . .
 ENV FLASK_APP=ml_model_app/src/app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONPATH=/app/ml_model_app
+
 EXPOSE 5000
 
 CMD ["flask", "run"]
