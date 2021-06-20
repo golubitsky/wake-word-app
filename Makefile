@@ -6,4 +6,4 @@ develop: build
 
 deploy: build
 	docker push gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1
-	echo 'image pushed; now manually deploy'
+	echo 'manually deploy at https://console.cloud.google.com/run/deploy/us-east1/golubitsky-ml-model-deployment-without-cloud-build?project=fb-mle-march-21'
