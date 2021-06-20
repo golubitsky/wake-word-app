@@ -5,7 +5,7 @@
 This will build a Docker image.
 
 ```
-make deploy
+make build
 ```
 
 ### Develop
