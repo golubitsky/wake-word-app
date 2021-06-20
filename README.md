@@ -2,7 +2,7 @@ I tried in three ways to deploy a Docker container.
 
 Summary of deployment attempts via:
 
-- GCP Cloud Run: succeeded to deploy service (serving Hello, World), but cannot expose it to the world.
+- GCP Cloud Run: succeeded to deploy service (serving Hello, World).
 - GCP Cloud Build integration for Github: permissions issue — [PROJECT_ID]@cloudbuild.gserviceaccount.com account doesn't have correct permissions to deploy
 - AWS ECS: missing iam:CreateRole permissions
 
@@ -31,12 +31,16 @@ Hello, brave world!
 
 This is serving the Flask app defined in `app.py`.
 
+#### Permissions issue (and resolution)
+
 I am unauthorized to expose the API publically — it's a permissions issue:
 
 ```
 Only authenticated invocations are allowed for this service.
 To allow unauthenticated invocations, add "allUsers" as a member and assign it the "Cloud Run invoker" role.
 ```
+
+To solve this issue, someone with the necessary permissions needed to add allUsers (or some specific users/groups) with the “Cloud Run Invoker” role.
 
 #### To Deploy a new version
 
