@@ -97,7 +97,7 @@ docker push golubitsky/ml-model-deployment:v1
 
 ```sh
 docker context use myecscontext
-# NOTE: note docker-compose
+# NOTE: not docker-compose
 docker compose up
 ```
 
