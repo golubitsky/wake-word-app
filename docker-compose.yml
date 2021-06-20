@@ -9,3 +9,4 @@ services:
     environment:
       - FLASK_ENV=development
       - PYTHONPATH=/app/ml_model_app # for pytest
+      - PYTHONWARNINGS=ignore # not good, but many warnings during pytest execution
