@@ -20,6 +20,14 @@ Now, visit http://localhost:5000
 
 The server automatically restarts on file change.
 
+### Test
+
+Same as `develop`, but instead of running the server, run tests.
+
+```
+make test
+```
+
 ### Deploy
 
 Build the Docker image and push it to GCR, described below.
