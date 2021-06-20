@@ -1,8 +1,11 @@
 import uuid
 import os
 
-from flask import Flask
-from flask import request
+from flask import (
+    Flask,
+    render_template,
+    request
+)
 
 from src.load_image import read_image_file
 from src.keras_inference import predict
@@ -18,13 +21,13 @@ def response_for_post():
 
     os.remove(temp_path)
 
-    return str(prediction)
+    return render_template('result.html', prediction=prediction)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def root():
     if request.method == 'GET':
-        return 'Hello, brave world!'
+        return render_template('index.html')
 
     if request.method == 'POST':
         return response_for_post()

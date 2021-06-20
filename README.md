@@ -13,7 +13,7 @@ make build
 This will build the Docker image and run it as a container.
 
 ```
-make develop
+make server
 ```
 
 Now, visit http://localhost:5000
