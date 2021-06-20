@@ -13,7 +13,6 @@ RUN pip3 install -r requirements.txt
 # Source code
 COPY . .
 
-
 ENV FLASK_APP=ml_model_app/src/app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV PYTHONDONTWRITEBYTECODE=1

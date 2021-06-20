@@ -3,6 +3,7 @@ import os
 
 from flask import (
     Flask,
+    jsonify,
     render_template,
     request
 )
@@ -13,7 +14,8 @@ from src.keras_inference import predict
 app = Flask(__name__)
 
 
-def response_for_post():
+@app.route('/prediction', methods=['POST'])
+def prediction():
     temp_path = f'/tmp/{str(uuid.uuid4())}'
 
     request.files['file'].save(temp_path)
@@ -21,16 +23,14 @@ def response_for_post():
 
     os.remove(temp_path)
 
-    return render_template('result.html', prediction=prediction)
+    return jsonify({
+        'prediction': prediction
+    })
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def root():
-    if request.method == 'GET':
-        return render_template('index.html')
-
-    if request.method == 'POST':
-        return response_for_post()
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
