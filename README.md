@@ -1,40 +1,11 @@
 ## Quickstart
 
-### Build
+- `make build` — build a Docker image
+- `make server` — run the dev server in the Docker image (available on http://localhost:5000)
+- `make test` — run tests in the Docker image
+- `make deploy` — push the Docker image to Google Container Registry (detailed below).
 
-This will build a Docker image.
-
-```
-make build
-```
-
-### Develop
-
-This will build the Docker image and run it as a container.
-
-```
-make server
-```
-
-Now, visit http://localhost:5000
-
-The server automatically restarts on file change.
-
-### Test
-
-Same as `develop`, but instead of running the server, run tests.
-
-```
-make test
-```
-
-### Deploy
-
-Build the Docker image and push it to GCR, described below.
-
-```
-make deploy
-```
+Every command above includes `make build` to ensure the latest code is used.
 
 ## Deployment
 
