@@ -1,6 +1,3 @@
-import uuid
-import os
-
 from flask import (
     Flask,
     jsonify,
@@ -8,7 +5,7 @@ from flask import (
     request
 )
 
-from src.load_image import read_image_file
+from src.load_image import image_from_http_form
 from src.keras_inference import predict
 
 app = Flask(__name__)
@@ -16,16 +13,10 @@ app = Flask(__name__)
 
 @app.route('/prediction', methods=['POST'])
 def prediction():
-    temp_path = f'/tmp/{str(uuid.uuid4())}'
-
-    request.files['file'].save(temp_path)
-    prediction = predict(read_image_file(temp_path))
-
-    os.remove(temp_path)
-
-    return jsonify({
-        'prediction': prediction
-    })
+    with image_from_http_form(request.files['file']) as image:
+        return jsonify({
+            'prediction': predict(image)
+        })
 
 
 @app.route('/', methods=['GET'])
