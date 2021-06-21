@@ -15,9 +15,9 @@ def test_prediction():
     data = dict(
         file=(image, 'file'),
     )
+
     response = app.test_client() \
         .post('/prediction', data=data, content_type='multipart/form-data')
 
     assert response.status_code == 200
-
     assert json.loads(response.get_data()) == {'prediction': 4}
