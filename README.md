@@ -146,3 +146,7 @@ I encountered the following blocking issue:
 ```
 API: iam:CreateRole User: arn:aws:iam::681261969843:user/mike617@gmail.com is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::681261969843:role/wake-word-app-WebTaskExecutionRole-15J439Q98DGFD
 ```
+
+### Other deployment ideas
+
+There might be an existing framework to do what this API does: https://www.tensorflow.org/tfx/serving/docker#developing_with_docker
