@@ -3,7 +3,7 @@
 - `make build` - build a Docker image
 - `make server` - run the dev server using the Docker image (available on http://localhost:5000)
 - `make test` - run tests using the Docker image
-- `make deploy` - push the Docker image to Google Container Registry (detailed below).
+- `make deploy` - push the Docker image to Google Container Registry (detailed below)
 
 Every command above includes `make build` to ensure the latest code is used.
 
