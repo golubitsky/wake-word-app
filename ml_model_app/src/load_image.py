@@ -17,7 +17,7 @@ def read_image_file(path):
 
 
 @contextmanager
-def image_from_http_form(http_file_storage_file):
+def image_from_html_form(http_file_storage_file):
     """
     Accepts a werkzeug.datastructures.FileStorage file
     """
