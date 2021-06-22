@@ -17,13 +17,13 @@ def read_image_file(path):
 
 
 @contextmanager
-def image_from_html_form(http_file_storage_file):
+def image_from_html_form(file_storage):
     """
     Accepts a werkzeug.datastructures.FileStorage file
     """
     # To leverage tensorflow.keras.preprocessing.image.load_img, write to disk.
     temp_path = f'/tmp/{str(uuid.uuid4())}'
-    http_file_storage_file.save(temp_path)
+    file_storage.save(temp_path)
 
     yield read_image_file(temp_path)
 
