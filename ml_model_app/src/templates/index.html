@@ -4,13 +4,28 @@
     <title>MNIST Handwritten Digits Prediction</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
+      html,
       body {
-        margin: 0;
+        height: 100%;
+      }
+
+      html {
+        display: table;
+        margin: auto;
+      }
+
+      body {
+        display: table-cell;
+        vertical-align: middle;
         font-family: Arial, Helvetica, sans-serif;
       }
 
       #prediction-container span {
         font-size: 40px;
+      }
+
+      p {
+        font-size: 0.9em;
       }
     </style>
 
@@ -51,6 +66,14 @@
       <input type="file" name="file" />
       <input type="submit" value="Upload" />
     </form>
+    <p>
+      (Here are some
+      <a
+        href="https://github.com/golubitsky/wake-word-app/tree/main/ml_model_app/samples"
+        >examples</a
+      >
+      in a format I can definitely understand.)
+    </p>
     <div id="prediction-container" hidden>
       <span>My best guess is</span>
       <span id="prediction"></span>
