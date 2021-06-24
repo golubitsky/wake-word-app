@@ -4,6 +4,6 @@ steps:
       [
         "build",
         "-t",
-        "gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1",
+        "gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:$SHORT_SHA",
         ".",
       ]
