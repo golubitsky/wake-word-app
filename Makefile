@@ -11,8 +11,7 @@ server: build
 test: build
 	docker-compose run --rm develop pytest -f --color=yes -p no:cacheprovider
 
-# This is accomplished automatically by merging to the remote `main` branch,
-# using Cloud Build, which also deploys.
 deploy: build
 	docker push $(IMAGE_NAME)
-	echo 'manually deploy at https://console.cloud.google.com/run/deploy/us-east1/golubitsky-ml-model-deployment-without-cloud-build?project=fb-mle-march-21'
+	echo 'Builds are deployed using CI/CD via Cloud Build by merging to main, but you can manually deploy at:'
+	echo 'https://console.cloud.google.com/run/deploy/us-east1/golubitsky-ml-model?project=fb-mle-march-21'

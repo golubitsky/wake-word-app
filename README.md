@@ -3,7 +3,7 @@
 - `make build` - build a Docker image
 - `make server` - run the dev server using the Docker image (available on http://localhost:5000)
 - `make test` - run tests using the Docker image
-- `make deploy` - push the Docker image to Google Container Registry (detailed below)
+- `make deploy` - (this is not required; simply merge to `main`) push the Docker image to Google Container Registry (detailed below)
 
 Every command above includes `make build` to ensure the latest code is used.
 
@@ -13,10 +13,10 @@ I tried in three ways to deploy a Docker container.
 
 Summary of deployment attempts via:
 
-- GCP Cloud Run: succeeded to deploy service (serving Hello, World).
-  - https://golubitsky-ml-model-deployment-without-cloud-buil-qvmmc7xxqa-ue.a.run.app/
-- GCP Cloud Build integration for Github: permissions issue — [PROJECT_ID]@cloudbuild.gserviceaccount.com account doesn't have correct permissions to deploy
-- AWS ECS: missing iam:CreateRole permissions
+- [x] GCP Cloud Run: succeeded to deploy service (serving Hello, World).
+  - https://golubitsky-ml-model-qvmmc7xxqa-ue.a.run.app/
+- [x] GCP Cloud Build integration for Github — full CI/CD is enabled.
+- [ ] AWS ECS: missing iam:CreateRole permissions; this will not be resolved, as CI/CD deployments already work via GCP.
 
 ## Attempts via GCP
 
@@ -69,6 +69,8 @@ docker push gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1
   - Click `DEPLOY`.
 
 ### Cloud Build
+
+**TL;DR** The issue described below has been resoled, and merging to `main` now deploys via Cloud Build/Run.
 
 Separately, I tried to get Cloud Build to work (so that pushing to this repo will cause builds).
 
