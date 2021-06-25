@@ -3,7 +3,6 @@
 - `make build` - build a Docker image
 - `make server` - run the dev server using the Docker image (available on http://localhost:5000)
 - `make test` - run tests using the Docker image
-- `make deploy` - (this is not required; simply merge to `main`) push the Docker image to Google Container Registry (detailed below)
 
 Every command above includes `make build` to ensure the latest code is used.
 
@@ -13,9 +12,10 @@ I tried in three ways to deploy a Docker container.
 
 Summary of deployment attempts via:
 
-- [x] GCP Cloud Run: succeeded to deploy service (serving Hello, World).
+- [x] GCP Cloud Run: succeeded to deploy service.
   - https://golubitsky-ml-model-qvmmc7xxqa-ue.a.run.app/
 - [x] GCP Cloud Build integration for Github — full CI/CD is enabled.
+  - Simply merge to `main`.
 - [ ] AWS ECS: missing iam:CreateRole permissions; this will not be resolved, as CI/CD deployments already work via GCP.
 
 ## Attempts via GCP
