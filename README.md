@@ -6,6 +6,10 @@
 
 Every command above includes `make build` to ensure the latest code is used.
 
+## Models
+
+All model training code can be found in the `notebooks/` directory. These are not required for development and serve as an archive, for future enhancements.
+
 ## Deployment
 
 I tried in three ways to deploy a Docker container.
