@@ -1,4 +1,6 @@
-## Quickstart
+The purpose of this repo is to deploy a machine learning model to the cloud. We accomplish this using GCP Cloud Build/Cloud Run. We deploy TensorFlow models developed using Python code in the `notebooks/` directory.
+
+# Quickstart
 
 - `make build` - build a Docker image
 - `make server` - run the dev server using the Docker image (available on http://localhost:5000)
@@ -6,13 +8,11 @@
 
 Every command above includes `make build` to ensure the latest code is used.
 
-## Model training code
+# Model training code
 
 All model training code can be found in the `notebooks/` directory. These serve as an archive, for future enhancements.
 
-## Deployment
-
-I tried in three ways to deploy a Docker container.
+# Deployment
 
 Summary of deployment attempts via:
 
@@ -22,108 +22,33 @@ Summary of deployment attempts via:
   - Simply merge to `main`.
 - [ ] AWS ECS: missing iam:CreateRole permissions; this will not be resolved, as CI/CD deployments already work via GCP.
 
-## Attempts via GCP
+Further details of the 3 deployment attempts can be found in [deployment_history.README.md](deployment_history.README.md).
 
-### Cloud Run
+## Deployment Overview
 
-We can't use DockerHub. Therefore we must push to Google Container Registry.
+For the deployment, we built a Flask API, containerized it using Docker, and deployed it on the Google Cloud Platform (GCP). We used GCP Cloud Run to deploy the containerized API service. We set up continuous integration and continuous delivery (CI/CD) using GCP Cloud Build, such that a push to the GitHub repo (https://github.com/golubitsky/wake-word-app) results in a new build being deployed to the cloud. Inside of the Flask API, we wrote a thin service layer to serve the Tensorflow/Keras models. We also provide a minimal UI to expose our optimal model.
 
-```
-gcloud auth login
-gcloud auth configure-docker
-gcloud config set project fb-mle-march-21
-docker build -t gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1 .
-docker push gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1
-```
+### Integration contract during development
 
-### The current state of the art.
+The purpose of defining an integration contract between multiple engineers is to enable each person to work independently and to minimize integration challenges. This is even more crucial on a larger team, where data scientists who develop models may not have the engineering expertise to deploy those models, and vice-versa. The integration contract that worked for us was that one engineer would develop a model and be responsible for the following deliverables:
 
-I was able to use the above image in GCR to manually setup a service in GCP. It works.
+1. The model artifact
+2. A snippet of Python code to load the model and predict on a sample in an agreed-upon format/shape
+3. Documentation of the model (e.g. hyperparameters, considerations for future enhancements)
+4. Dependencies required to predict using the model
 
-```
-$ curl -H  "Authorization: Bearer $(gcloud auth print-identity-token)" https://golubitsky-ml-model-deployment-without-cloud-buil-qvmmc7xxqa-ue.a.run.app
-Hello, brave world!
-```
+That way, another engineer working on the infrastructure to serve the model can work independently, with a relatively simple integration stage.
 
-This is serving the Flask app defined in `app.py`.
+### Scaling
 
-#### Permissions issue (and resolution)
+#### Larger models
 
-I am unauthorized to expose the API publically — it's a permissions issue:
+At the moment, we commit the model to the source code. This works because our model size is small. However, this would not scale to larger model sizes and/or when we have many models to choose from. In that case, presumably we would explore the use of a Machine Learning Model Registry, such that we would store the model artifact in a NoSQL database somewhere, register the artifact, and, as it is booting up, have the Flask API retrieve the specific version of the model whose prediction is to be served.
 
-```
-Only authenticated invocations are allowed for this service.
-To allow unauthenticated invocations, add "allUsers" as a member and assign it the "Cloud Run invoker" role.
-```
+#### Multiple types of models
 
-To solve this issue, someone with the necessary permissions needed to add allUsers (or some specific users/groups) with the “Cloud Run Invoker” role.
+In our MVP phase, we worked with TensorFlow models only. If multiple types of model are to be served (for example scikit-learn and PyTorch models, in addition to the TensorFlow models), we might first write independent Prediction modules in our Flask API for each type of model, and if that becomes hard to manage, consider writing multiple API services, one for each type of model.
 
-#### To Deploy a new version
+At this point, it is likely that a dedicated Model Registry will help significantly to both streamline the deployments as well as to keep track of each model version and its documentation.
 
-- Manually build.
-
-```
-docker build -t gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1 .
-docker push gcr.io/fb-mle-march-21/golubitsky/ml-model-deployment:v1
-```
-
-- Manually update.
-  - Visit https://console.cloud.google.com/run/detail/us-east1/golubitsky-ml-model-deployment-without-cloud-build/revisions?project=fb-mle-march-21
-  - Click `EDIT & DEPLOY NEW REVISION`.
-  - Click `DEPLOY`.
-
-### Cloud Build
-
-**TL;DR** The issue described below has been resoled, and merging to `main` now deploys via Cloud Build/Run.
-
-Separately, I tried to get Cloud Build to work (so that pushing to this repo will cause builds).
-
-The builds are triggered, but every build fails to actually deploy due to other permissions issues I also cannot resolve myself.
-
-This is the error encountered for every build:
-
-```
-Step #2 - "Deploy": ERROR: (gcloud.run.services.update) PERMISSION_DENIED: Permission 'run.services.get' denied on resource 'namespaces/fb-mle-march-21/services/golubitsky-ml-model-deployment' (or resource may not exist).
-```
-
-Reading [docs/build-debug-locally](https://cloud.google.com/build/docs/build-debug-locally), I confirmed that the build is fine locally.
-
-Then I see this quote from the docs:
-
-- To run the build, the local builder uses your personal account, and the Cloud Build uses the cloudbuild service account [PROJECT_ID]@cloudbuild.gserviceaccount.com. If you set any permissions on your personal account for the local builder, you may need to replicate these permissions on the cloudbuild service account. For details, see Setting Service Account Permissions.
-
-It is not that my personal account doesn't have the Cloud Run permissions, but rather the cloudbuild service account.
-
-## Earlier attempt via AWS that also ran into permissions issues
-
-I tried to deploy Docker container to ECS directly by following:
-
-- https://docs.docker.com/compose/gettingstarted/
-- https://docs.docker.com/docker-hub/repos/
-- https://docs.docker.com/cloud/ecs-integration/
-
-```
-docker context use default
-docker build -t golubitsky/ml-model-deployment:v1 .
-```
-
-```
-docker login
-docker push golubitsky/ml-model-deployment:v1
-```
-
-```sh
-docker context use myecscontext
-# NOTE: not docker-compose
-docker compose up
-```
-
-I encountered the following blocking issue:
-
-```
-API: iam:CreateRole User: arn:aws:iam::681261969843:user/mike617@gmail.com is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::681261969843:role/wake-word-app-WebTaskExecutionRole-15J439Q98DGFD
-```
-
-### Other deployment ideas
-
-There might be an existing framework to do what this API does: https://www.tensorflow.org/tfx/serving/docker#developing_with_docker
+If we have many different types of models, we will seek the right abstraction, so that we can deploy different models with minimal additional code and effort. These patterns would become evident as we develop and maintain multiple models in production.
