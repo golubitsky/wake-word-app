@@ -6,9 +6,9 @@
 
 Every command above includes `make build` to ensure the latest code is used.
 
-## Models
+## Model training code
 
-All model training code can be found in the `notebooks/` directory. These are not required for development and serve as an archive, for future enhancements.
+All model training code can be found in the `notebooks/` directory. These serve as an archive, for future enhancements.
 
 ## Deployment
 
