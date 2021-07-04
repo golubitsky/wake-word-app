@@ -6,7 +6,7 @@ from flask import (
 )
 
 from src.load_image import image_from_html_form
-from src.keras_inference import predict
+from src.transfer_learning_inference import predict
 
 app = Flask(__name__)
 
