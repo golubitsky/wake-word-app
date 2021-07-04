@@ -1,6 +1,7 @@
 import zipfile
 import uuid
 import os
+import shutil
 
 from tensorflow import keras
 import numpy as np
@@ -18,6 +19,8 @@ class Model(object):
         with zipfile.ZipFile(path_to_zip_file, 'r') as zip_ref:
             zip_ref.extractall(temp_path)
             self.model = keras.models.load_model(os.path.join(temp_path, 'content/mnist_model'))
+
+        shutil.rmtree(temp_path)
 
     def single_predict(self, sample):
         sample_in_higher_rank_tensor = np.expand_dims(sample, axis=0)
