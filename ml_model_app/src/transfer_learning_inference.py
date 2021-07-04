@@ -28,8 +28,7 @@ class Model(object):
     def evaluate(self, x, y, verbose=0):
         # x is a test batch, y is test labels,
         # change verbose if desired
-        # not doing size checks here, should check with mischa on
-        # formatting and use case
+        # not doing size checks here, should check re: formatting and use case
         score = self.model.evaluate(x, y, verbose)
         return score
 
