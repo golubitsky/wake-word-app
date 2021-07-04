@@ -51,8 +51,11 @@
               $("#prediction").text(String(result["prediction"]) + "!");
               $("#prediction-container").show();
             },
-            error: function (er) {
-              alert(er);
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.error(jqXHR.responseText);
+              console.error(textStatus);
+              console.error(errorThrown);
+              alert(jqXHR.responseText);
             },
           });
         });
